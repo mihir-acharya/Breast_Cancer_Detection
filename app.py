@@ -35,24 +35,24 @@ def upload_file():
 		    result_dict[pid[row]] = predict_value[0]
 		print(result_dict)  
 		# return Response("CSV Result Predicted")
-		return render_template("upload_success.html", name = result_dict)  
+		return render_template("upload_success.html", result_dict = result_dict)  
 
 # @app.route("/file_data_predict", methods=['POST'])
-def file_data_predict():
-	df = pd.read_csv('Breast Cancer-Kaggle.csv',encoding = 'ISO-8859-1')
-	X = df.drop(columns=['id'], axis = 1)
-	pid = df['id']
-	dfrows = X.shape[0]
-	value_lst = []
-	result_dict = {}
-	for row in range(dfrows):
-	    value_lst.clear()
-	    for value in X.iloc[row]:
-	        value_lst.append(value)
-	    predict_value=model.predict([value_lst])
-	    result_dict[pid[row]] = predict_value[0]
-	print(result_dict)  
-	return Response("DataFrame created")
+# def file_data_predict():
+# 	df = pd.read_csv('Breast Cancer-Kaggle.csv',encoding = 'ISO-8859-1')
+# 	X = df.drop(columns=['id'], axis = 1)
+# 	pid = df['id']
+# 	dfrows = X.shape[0]
+# 	value_lst = []
+# 	result_dict = {}
+# 	for row in range(dfrows):
+# 	    value_lst.clear()
+# 	    for value in X.iloc[row]:
+# 	        value_lst.append(value)
+# 	    predict_value=model.predict([value_lst])
+# 	    result_dict[pid[row]] = predict_value[0]
+# 	print(result_dict)  
+# 	return Response("DataFrame created")
 
 @app.route("/", methods=['POST'])
 def predict():
