@@ -16,26 +16,27 @@ model = pickle.load(open('model/lr_breast_cancer_model.pkl', 'rb'))
 def index():
     return render_template('index.html')
 
-@app.route('/uploader', methods = ['GET', 'POST'])
+
+@app.route('/uploader', methods=['GET', 'POST'])
 def upload_file():
-	if request.method == 'POST':  
-		f = request.files['file']  
-		f.save("uploads/" + f.filename)  
-		df = pd.read_csv(f.filename, encoding = 'ISO-8859-1')
-		X = df.drop(columns=['id'], axis = 1)
-		pid = df['id']
-		dfrows = X.shape[0]
-		value_lst = []
-		result_dict = {}
-		for row in range(dfrows):
-		    value_lst.clear()
-		    for value in X.iloc[row]:
-		        value_lst.append(value)
-		    predict_value=model.predict([value_lst])
-		    result_dict[pid[row]] = predict_value[0]
-		print(result_dict)  
-		# return Response("CSV Result Predicted")
-		return render_template("upload_success.html", result_dict = result_dict)  
+    if request.method == 'POST':
+        f = request.files['file']
+        f.save("uploads/" + f.filename)
+        df = pd.read_csv(f.filename, encoding='ISO-8859-1')
+        X = df.drop(columns=['id'], axis=1)
+        pid = df['id']
+        dfrows = X.shape[0]
+        value_lst = []
+        result_dict = {}
+        for row in range(dfrows):
+            value_lst.clear()
+            for value in X.iloc[row]:
+                value_lst.append(value)
+            predict_value = model.predict([value_lst])
+            result_dict[pid[row]] = predict_value[0]
+        print(result_dict)
+        # return Response("CSV Result Predicted")
+        return render_template("upload_success.html", result_dict=result_dict)
 
 # @app.route("/file_data_predict", methods=['POST'])
 # def file_data_predict():
@@ -51,8 +52,9 @@ def upload_file():
 # 	        value_lst.append(value)
 # 	    predict_value=model.predict([value_lst])
 # 	    result_dict[pid[row]] = predict_value[0]
-# 	print(result_dict)  
+# 	print(result_dict)
 # 	return Response("DataFrame created")
+
 
 @app.route("/", methods=['POST'])
 def predict():
@@ -88,7 +90,8 @@ def predict():
     # fractal_dimension_worst = float(request.form['fractal_dimension_worst'])
 
     try:
-        predicted_value = model.predict([[12.34,22.22,79.85,464.5,0.10120,0.10150,0.05370,0.02822,0.1551,0.06761,0.2949,1.6560,1.955,21.55,0.011340,0.031750,0.03125,0.011350,0.01879,0.005348,13.58,28.68,87.36,553.0,0.1452,0.23380,0.16880,0.08194,0.2268,0.09082]])
+        predicted_value = model.predict([[12.34, 22.22, 79.85, 464.5, 0.10120, 0.10150, 0.05370, 0.02822, 0.1551, 0.06761, 0.2949, 1.6560, 1.955, 21.55,
+                                          0.011340, 0.031750, 0.03125, 0.011350, 0.01879, 0.005348, 13.58, 28.68, 87.36, 553.0, 0.1452, 0.23380, 0.16880, 0.08194, 0.2268, 0.09082]])
         # predicted_value = model.predict([[15.30, 25.27, 102.40, 732.4, 0.10820, 0.16970, 0.16830, 0.08751, 0.1926, 0.06540, 0.4390, 1.0120, 3.498, 43.50,
         #                                   0.005233, 0.030570, 0.03576, 0.010830, 0.01768, 0.002967, 20.27, 36.71, 149.30, 1269.0, 0.1641, 0.61100, 0.63350, 0.20240, 0.4027, 0.09876]])
         # predicted_value = model.predict([[radius_mean, texture_mean, perimeter_mean, area_mean, smoothness_mean, compactness_mean, concavity_mean, concave_points_mean, symmetry_mean, fractal_dimension_mean, radius_se, texture_se, perimeter_se, area_se, smoothness_se, compactness_se, concavity_se, concave_points_se, symmetry_se, fractal_dimension_se, radius_worst, texture_worst, perimeter_worst, area_worst, smoothness_worst, compactness_worst, concavity_worst, concave_points_worst, symmetry_worst, fractal_dimension_worst]])
